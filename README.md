@@ -42,4 +42,37 @@ The tweets were treated in the following ways:
   - All letters converted to lower-case
   - Stop-words removed
   - All tweets tokenised and and lemmatised
-  sdcsdcsd
+
+
+## Pre-Processing
+
+The data set was split in to an 80:20 train and test set before being put through the following pre-processing steps:
+
+  - Keyword: one-hot encoded
+  - Location: count-vectorized unigrams
+  - Text: a grid search was performed over the Tf-idfVectorizer parameters to find the optimal settings, with an ngram_range of (1,3) and min_df value of 10 performing best
+  - All columns were standardised
+
+## Modelling
+
+A variety of models were fitted on the dataset, with support vector classifier receiving the highest F1 score for the target variable. The image below details all of the pre-processing steps and the range of parameters searched over by the grid search.
+
+![](images/gridsearch.png)
+
+Here are the scores achieved by the model along with the optimal parameters:
+
+![](images/scores.png)
+
+## Visual Analysis of Predictions
+
+![](images/confusion.png)
+![](images/prcurve.png)
+![](images/roccurve.png)
+
+## Conclusion
+
+The model performed relatively well at predicting whether tweets referred to a disaster. The highest cross-validated mean F1 score of 0.748 was achieved by support vector classifier which was a nice improvement on the 0.710 score from a vanilla logistic regression model.
+
+A low recall score of 0.71 for disaster tweets showed that a large portion of the disaster tweets were being incorrectly labelled. Having said this though, the precision values for both classes were both high, at between 0.78 - 0.80.
+
+The decreasing gradient of the ROC curve for disaster tweets (class 1) shows that as the probability threshold reaches the mid-point, it quickly starts to mis-label disaster tweets.
